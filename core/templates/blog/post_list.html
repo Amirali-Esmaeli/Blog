@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}List Posts{% endblock %}
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+    <div class="container py-5">
+    <h2 class="fw-bold mb-4 text-center">List Posts</h2>
+    <div class="row g-4">
+        {% for post in posts %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card post-card h-100">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top post-image" alt="{{ post.title }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <a href="{% url 'blog:post-detail' pk=post.id %}"><h2>{{post.title}}</h2></a>
+                    <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                    <a href="{%url 'blog:post-edit' pk=post.id%}">
+                        <h5>Edit</h5>
+                    </a>
+                    <a href="{%url 'blog:post-delete' pk=post.id%}">
+                        <h5>Delete</h5>
+                    </a>
+                    <a href="{%url 'comment:comment-list' post_id=post.id%}">
+                        <h5>Read comment</h5>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No posts published yet.</p>
+        {% endfor %}
+        <div>
+            <a href="{%url 'blog:post-create'%}">
+            <h5>Create Post</h5>
+        </a>
+        </div>
+        <div class="pagination">
+        <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+        </div>
+        <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+    </form>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Delete Comment{% endblock %}
+{% block extra_css %}{% endblock %}
+
+{% block content %}
+    <form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <input type="submit" value="Confirm">
+    <a href="{% url 'comment:comment-list' post_id=post.id%}"><h5>Back</h5></a>
+    </form>
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Detail Post{% endblock %}
+{% block extra_css %}{% endblock %}
+
+{% block content %}
+    <div class="container py-5">
+    <h2 class="fw-bold mb-4 text-center">Detail Post</h2>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card post-card h-100">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top post-image" alt="{{ post.title }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content}}</p>
+                    
+                    <div class="mt-auto">
+                        <p class="post-meta">
+                            Category: {{ post.category }} <br>
+                            Author: {{ post.author}} <br>
+                            Published: {{ post.published_date|date:"M d, Y" }}
+                        </p>
+                    </div>
+                    <a href="{% url 'blog:post-list' %}"><h5>Back</h5></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
